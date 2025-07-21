@@ -8,7 +8,7 @@ from app.misp.client import MISPClient
 logger = logging.getLogger(__name__)
 
 
-async def add_attribute(
+def add_attribute(
     misp_client: MISPClient,
     event_id: str,
     attribute_type: str,
@@ -79,7 +79,7 @@ This attribute can now be used for correlation and detection within MISP."""
 Please check your input parameters and ensure the event exists."""
 
 
-async def get_event_attributes(
+def get_event_attributes(
     misp_client: MISPClient,
     event_id: str,
     limit: int = 20,

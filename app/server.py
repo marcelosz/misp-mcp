@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 # Create main MCP server instance
 mcp = FastMCP(
-    name="MISP MCP Server",
+    name="MISP",
     instructions="""
     This is a MCP server for Malware Information Sharing Platform (MISP).
 
@@ -31,6 +31,10 @@ mcp = FastMCP(
     - get_event: Retrieve a MISP event by ID or UUID.
     - search_events: Search for MISP events with various filters.
     - add_attribute: Add an attribute to a MISP event.
+
+    You can also use the following resources:
+    - events/recent/{days}: Get recent MISP events from the last N days (Supported values: 7, 30, 90. Default: 7)
+    - feeds: Get information about MISP feeds.
     """,
 )
 
@@ -41,8 +45,13 @@ settings = get_settings()
 misp_client = None
 
 
-async def initialize_misp_client():
+def get_misp_client() -> MISPClient:
     global misp_client
+
+    # Check if already initialized
+    if misp_client is not None:
+        return misp_client
+
     try:
         misp_client = MISPClient(settings)
         logger.info(f"MISP client initialized for {settings.misp_url}")
@@ -60,7 +69,7 @@ async def check_connection() -> str:
     """
     from app.tools.connection import check_connection as _check_connection
 
-    return await _check_connection(misp_client)
+    return _check_connection(get_misp_client())
 
 
 @mcp.tool()
@@ -70,7 +79,7 @@ async def get_version() -> str:
     """
     from app.tools.connection import get_version as _get_version
 
-    return await _get_version(misp_client)
+    return _get_version(get_misp_client())
 
 
 # Event management tools
@@ -81,7 +90,7 @@ async def create_event(info: str, distribution: int = 1, threat_level_id: int = 
     """
     from app.tools.events import create_event as _create_event
 
-    return await _create_event(misp_client, info, distribution, threat_level_id, analysis, date)
+    return _create_event(get_misp_client(), info, distribution, threat_level_id, analysis, date)
 
 
 @mcp.tool()
@@ -91,7 +100,7 @@ async def get_event(event_id: str, include_attributes: bool = True) -> str:
     """
     from app.tools.events import get_event as _get_event
 
-    return await _get_event(misp_client, event_id, include_attributes)
+    return _get_event(get_misp_client(), event_id, include_attributes)
 
 
 @mcp.tool()
@@ -103,7 +112,7 @@ async def search_events(
     """
     from app.tools.events import search_events as _search_events
 
-    return await _search_events(misp_client, limit, days_back, date_from, date_to, org, tags, threat_level)
+    return _search_events(get_misp_client(), limit, days_back, date_from, date_to, org, tags, threat_level)
 
 
 # Attribute management tools
@@ -116,7 +125,7 @@ async def add_attribute(
     """
     from app.tools.attributes import add_attribute as _add_attribute
 
-    return await _add_attribute(misp_client, event_id, attribute_type, value, category, comment, to_ids, distribution)
+    return _add_attribute(get_misp_client(), event_id, attribute_type, value, category, comment, to_ids, distribution)
 
 
 @mcp.tool()
@@ -126,13 +135,30 @@ async def get_event_attributes(event_id: str, limit: int = 20, attribute_type: s
     """
     from app.tools.attributes import get_event_attributes as _get_event_attributes
 
-    return await _get_event_attributes(misp_client, event_id, limit, attribute_type, category)
+    return _get_event_attributes(get_misp_client(), event_id, limit, attribute_type, category)
+
+
+# Resources
+@mcp.resource("events://recent/{days}")
+async def get_recent_events(days: int = 7) -> str:
+    """Get recent MISP events from the last N days."""
+    from app.resources.events import get_recent_events as _get_recent_events
+
+    return _get_recent_events(get_misp_client(), days)
+
+
+@mcp.resource("feeds://")
+async def get_feeds() -> str:
+    """Get information about recent MISP feeds."""
+    from app.resources.feeds import get_feeds as _get_feeds
+
+    return _get_feeds(get_misp_client())
 
 
 async def main():
     try:
         # Initialize MISP client
-        await initialize_misp_client()
+        get_misp_client()
 
         # Test connection on startup
         result = misp_client.test_connection()

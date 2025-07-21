@@ -5,7 +5,7 @@ from app.misp.client import MISPClient
 logger = logging.getLogger(__name__)
 
 
-async def check_connection(misp_client: MISPClient) -> str:
+def check_connection(misp_client: MISPClient) -> str:
     """
     Test the connection to the MISP instance and verify authentication.
     """
@@ -41,7 +41,7 @@ Please check your MISP_URL and MISP_API_KEY configuration."""
 Please verify your MISP configuration and network connectivity."""
 
 
-async def get_version(misp_client: MISPClient) -> str:
+def get_version(misp_client: MISPClient) -> str:
     """
     Get detailed version information from the MISP instance.
     """

@@ -11,7 +11,7 @@ from app.misp.client import MISPClient
 logger = logging.getLogger(__name__)
 
 
-async def create_event(
+def create_event(
     misp_client: MISPClient, info: str, distribution: int = 1, threat_level_id: int = 3, analysis: int = 0, date: Optional[str] = None
 ) -> str:
     """
@@ -68,7 +68,7 @@ You can now add attributes to this event using the `add_attribute` tool with eve
 Please check your input parameters and MISP connection."""
 
 
-async def get_event(misp_client: MISPClient, event_id: str, include_attributes: bool = True) -> str:
+def get_event(misp_client: MISPClient, event_id: str, include_attributes: bool = True) -> str:
     """
     Retrieve a MISP event by ID or UUID.
 
@@ -129,7 +129,7 @@ async def get_event(misp_client: MISPClient, event_id: str, include_attributes: 
 Please verify the event ID/UUID and your access permissions."""
 
 
-async def search_events(
+def search_events(
     misp_client: MISPClient,
     limit: int = 10,
     days_back: Optional[int] = None,
