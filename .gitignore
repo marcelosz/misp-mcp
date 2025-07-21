@@ -1,0 +1,50 @@
+# Compiled Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg
+
+# Virtual environment
+.env/
+venv/
+env/
+*.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.installed.cfg
+
+# Logs and temporary files
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+sftp-config.json
+
+# Test and coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+.pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyInstaller
+*.spec
+
+.env
+.internal/
+.python-version
