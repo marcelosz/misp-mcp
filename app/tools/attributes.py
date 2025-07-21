@@ -20,6 +20,18 @@ async def add_attribute(
 ) -> str:
     """
     Add an attribute to a MISP event.
+
+    Args:
+        event_id: ID or UUID of the event to add the attribute to
+        attribute_type: Type of attribute (e.g., 'ip-src', 'domain', 'md5', 'url', 'filename')
+        value: The actual value of the attribute
+        category: Category of the attribute (e.g., 'Network activity', 'Payload delivery', 'Artifacts dropped')
+        comment: Optional comment describing the attribute
+        to_ids: Whether this attribute should be used for IDS detection
+        distribution: Distribution level (0-3 for specific levels, 5=Inherit from event)
+
+    Returns:
+        Success message with attribute details or error information.
     """
 
     try:
@@ -76,6 +88,15 @@ async def get_event_attributes(
 ) -> str:
     """
     Get all attributes for a specific MISP event.
+
+    Args:
+        event_id: ID or UUID of the event to get attributes for
+        limit: Maximum number of attributes to return (default: 20, max: 100)
+        attribute_type: Filter by specific attribute type (optional)
+        category: Filter by specific category (optional)
+
+    Returns:
+        List of attributes with their details.
     """
 
     try:

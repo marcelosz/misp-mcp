@@ -16,6 +16,16 @@ async def create_event(
 ) -> str:
     """
     Create a new MISP event with basic information.
+
+    Args:
+        info: Event description/information (required)
+        distribution: Distribution level (0=Your Org, 1=This Community, 2=Connected Communities, 3=All Communities)
+        threat_level_id: Threat level (1=High, 2=Medium, 3=Low, 4=Undefined)
+        analysis: Analysis status (0=Initial, 1=Ongoing, 2=Complete)
+        date: Event date in YYYY-MM-DD format (defaults to today)
+
+    Returns:
+        Success message with event ID or error information.
     """
 
     try:
@@ -61,6 +71,13 @@ Please check your input parameters and MISP connection."""
 async def get_event(misp_client: MISPClient, event_id: str, include_attributes: bool = True) -> str:
     """
     Retrieve a MISP event by ID or UUID.
+
+    Args:
+        event_id: Event ID or UUID
+        include_attributes: Whether to include event attributes in the response
+
+    Returns:
+        Event details including attributes if requested.
     """
 
     try:
@@ -124,6 +141,18 @@ async def search_events(
 ) -> str:
     """
     Search for MISP events with various filters.
+
+    Args:
+        limit: Maximum number of events to return (default: 10, max: 50)
+        days_back: Number of days to look back from today
+        date_from: Start date in YYYY-MM-DD format
+        date_to: End date in YYYY-MM-DD format
+        org: Organization name to filter by
+        tags: Tag name to filter by
+        threat_level: Threat level ID to filter by (1=High, 2=Medium, 3=Low, 4=Undefined)
+
+    Returns:
+        List of matching events with basic information.
     """
     try:
         # Limit results to max 50 for performance
