@@ -113,12 +113,11 @@ install_dependencies() {
 # Run the server
 run_server() {
     print_info "Starting MISP MCP Server..."
-    print_info "Press Ctrl+C to stop the server"
     echo
     
     # Run using uv to ensure virtual environment is used
     # Use -m to run as module so relative imports work
-    uv run python -m src.server
+    uv run python -m app.server
 }
 
 # Main execution

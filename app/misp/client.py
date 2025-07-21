@@ -3,7 +3,7 @@ from typing import Optional
 
 from pymisp import PyMISP
 
-from ..config import Settings
+from app.config import Settings
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class MISPClient:
 
     def test_connection(self) -> dict:
         try:
-            response = self.client.get_version()
+            response = self.client.misp_instance_version
             if isinstance(response, dict):
                 return {
                     "status": "connected",
@@ -41,7 +41,7 @@ class MISPClient:
 
     def get_version(self) -> dict:
         try:
-            return self.client.get_version()
+            return self.client.misp_instance_version
         except Exception as e:
             logger.error(f"Failed to get version: {e}")
             raise

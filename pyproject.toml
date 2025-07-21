@@ -9,10 +9,13 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastmcp>=2.0.0",
-    "pymisp>=2.5.12",
+    "pymisp>=2.5.10",
     "pydantic-settings>=2.5.0",
     "python-dotenv>=1.0.0",
 ]
+
+[project.scripts]
+misp-mcp = "app.server:run_server"
 
 [project.optional-dependencies]
 dev = [
@@ -20,6 +23,14 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
 ]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
 
 [tool.ruff]
 target-version = "py312"

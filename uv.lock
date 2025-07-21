@@ -415,7 +415,7 @@ wheels = [
 [[package]]
 name = "misp-mcp"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
     { name = "pydantic-settings" },
@@ -434,7 +434,7 @@ dev = [
 requires-dist = [
     { name = "fastmcp", specifier = ">=2.0.0" },
     { name = "pydantic-settings", specifier = ">=2.5.0" },
-    { name = "pymisp", specifier = ">=2.5.12" },
+    { name = "pymisp", specifier = "==2.5.10" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.21.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
@@ -567,16 +567,16 @@ wheels = [
 
 [[package]]
 name = "pymisp"
-version = "2.5.12"
+version = "2.5.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "deprecated" },
     { name = "python-dateutil" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ba/64/b9c181a9327abff9eb49eff85ee5b0a24730e6902f907a909d8601fe15fe/pymisp-2.5.12.tar.gz", hash = "sha256:75dd505d96e1d67b9bfec7a5e1aea3b967426da348e69bdbaa1e554821e10fd6", size = 1959842 }
+sdist = { url = "https://files.pythonhosted.org/packages/51/8d/ed80be914da9336a5b95627718d22604fec042e1e70c3db3c917f76f97b9/pymisp-2.5.10.tar.gz", hash = "sha256:369595f98783ea60e97fefb2d56c3c7ef60ea9e56ad13aa10ece924db2343252", size = 1958301 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/43/3209ce5c1fca01245cfca303202cad6df9a1ad295ee313a7081a7e6a9949/pymisp-2.5.12-py3-none-any.whl", hash = "sha256:728860be812826ca51f9ce08e0db341f582492cfa19f38f7395613c2a8f9439b", size = 481728 },
+    { url = "https://files.pythonhosted.org/packages/d5/66/08360835b4335eae5385772630d217bbe05dbaa7e70b7bef40489f5878f4/pymisp-2.5.10-py3-none-any.whl", hash = "sha256:7bd76c74e2c0fbdbed61973b09469c381e0d3a1276298c12e13e8b772516493c", size = 479315 },
 ]
 
 [[package]]

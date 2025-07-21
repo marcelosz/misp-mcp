@@ -1,30 +1,23 @@
-import fastmcp
-from typing import Any, Optional
-import logging
+from typing import Optional
+
 from datetime import datetime, timedelta
+
+import logging
+
 from pymisp import MISPEvent
 
+from app.misp.client import MISPClient
+
 logger = logging.getLogger(__name__)
-mcp = fastmcp.FastMCP("MISP Event Management Tools")
 
 
-@mcp.tool()
 async def create_event(
-    misp_client: Any, info: str, distribution: int = 1, threat_level_id: int = 3, analysis: int = 0, date: Optional[str] = None
+    misp_client: MISPClient, info: str, distribution: int = 1, threat_level_id: int = 3, analysis: int = 0, date: Optional[str] = None
 ) -> str:
     """
     Create a new MISP event with basic information.
-
-    Args:
-        info: Event description/information (required)
-        distribution: Distribution level (0=Your Org, 1=This Community, 2=Connected Communities, 3=All Communities)
-        threat_level_id: Threat level (1=High, 2=Medium, 3=Low, 4=Undefined)
-        analysis: Analysis status (0=Initial, 1=Ongoing, 2=Complete)
-        date: Event date in YYYY-MM-DD format (defaults to today)
-
-    Returns:
-        Success message with event ID or error information.
     """
+
     try:
         event = MISPEvent()
         event.info = info
@@ -65,18 +58,11 @@ You can now add attributes to this event using the `add_attribute` tool with eve
 Please check your input parameters and MISP connection."""
 
 
-@mcp.tool()
-async def get_event(misp_client: Any, event_id: str, include_attributes: bool = True) -> str:
+async def get_event(misp_client: MISPClient, event_id: str, include_attributes: bool = True) -> str:
     """
     Retrieve a MISP event by ID or UUID.
-
-    Args:
-        event_id: Event ID or UUID
-        include_attributes: Whether to include event attributes in the response
-
-    Returns:
-        Event details including attributes if requested.
     """
+
     try:
         result = misp_client.client.get_event(event_id, pythonify=True)
 
@@ -126,9 +112,8 @@ async def get_event(misp_client: Any, event_id: str, include_attributes: bool = 
 Please verify the event ID/UUID and your access permissions."""
 
 
-@mcp.tool()
 async def search_events(
-    misp_client: Any,
+    misp_client: MISPClient,
     limit: int = 10,
     days_back: Optional[int] = None,
     date_from: Optional[str] = None,
@@ -139,18 +124,6 @@ async def search_events(
 ) -> str:
     """
     Search for MISP events with various filters.
-
-    Args:
-        limit: Maximum number of events to return (default: 10, max: 50)
-        days_back: Number of days to look back from today
-        date_from: Start date in YYYY-MM-DD format
-        date_to: End date in YYYY-MM-DD format
-        org: Organization name to filter by
-        tags: Tag name to filter by
-        threat_level: Threat level ID to filter by (1=High, 2=Medium, 3=Low, 4=Undefined)
-
-    Returns:
-        List of matching events with basic information.
     """
     try:
         # Limit results to max 50 for performance

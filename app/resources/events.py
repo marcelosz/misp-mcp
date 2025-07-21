@@ -1,13 +1,10 @@
-import fastmcp
 import logging
 from datetime import datetime, timedelta
-from ..misp.client import MISPClient
+from app.misp.client import MISPClient
 
 logger = logging.getLogger(__name__)
-mcp = fastmcp.FastMCP("MISP Event Resources")
 
 
-@mcp.resource("events/recent/{days}")
 async def get_recent_events(misp_client: MISPClient, days: str) -> str:
     """
     Get recent MISP events from the last N days.
